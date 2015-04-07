@@ -88,10 +88,11 @@ public class IonicKeyboard extends CordovaPlugin{
             });
             return true;
         }
+
 		if ("hideTitleBar".equals(action)) {
+			String show = args.getString(0);
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
-					String show = args.getString(0);
 					if (show == "true" || show == "1") {
 						cordova.getActivity().getActionBar().show();
 					}
