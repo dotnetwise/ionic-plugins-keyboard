@@ -18,7 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 public class IonicKeyboard extends CordovaPlugin{
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
+        super.initialize(final cordova, webView);
 
         //calculate density-independent pixels (dp)
         //http://developer.android.com/guide/practices/screens_support.html
@@ -45,17 +45,17 @@ public class IonicKeyboard extends CordovaPlugin{
             .getSystemService(Context.INPUT_METHOD_SERVICE);
 
 			appView.sendJavascript("cordova.fireWindowEvent('native.keyboardchanged', { 'viewPortHeight':" + Integer.toString(b)+", 'rootViewHeight':" + Integer.toString(h)+", 'imm': " + (imm != null && imm.isAcceptingText() ? "1": "0") +" });");
-
-			if (imm != null) {
-				if (imm.isAcceptingText()) {
-					Log.d("Safetybank","Software Keyboard was shown");
-				} else {
-					Log.d("Safetybank","Software Keyboard was not shown"); 
-				} 
-			}
-		else {
-			Log.d("Safetybank", "immmmmmmmmmmmmmmmmmmmmmmmmmmm null");
-		}
+			 
+//			if (imm != null) {
+//				if (imm.isAcceptingText()) {
+//					Log.d("Safetybank","Software Keyboard was shown");
+//				} else {
+//					Log.d("Safetybank","Software Keyboard was not shown"); 
+//				} 
+//			}
+//		else {
+//			Log.d("Safetybank", "immmmmmmmmmmmmmmmmmmmmmmmmmmm null");
+//		}
 
                 int pixelHeightDiff = (int)(heightDiff / density);
 
