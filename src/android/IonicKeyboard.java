@@ -39,7 +39,7 @@ public class IonicKeyboard extends CordovaPlugin{
                 rootView.getWindowVisibleDisplayFrame(r);
 
 				int h = rootView.getRootView().getHeight();
-				var b = r.bottom;
+				int b = r.bottom;
                 int heightDiff = h - b;
 						InputMethodManager imm = (InputMethodManager)cordova.getActivity()
             .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -48,13 +48,13 @@ public class IonicKeyboard extends CordovaPlugin{
 
 			if (imm != null) {
 				if (imm.isAcceptingText()) {
-					Log.d(TAG,"Software Keyboard was shown");
+					Log.d("Safetybank","Software Keyboard was shown");
 				} else {
-					Log.d(TAG,"Software Keyboard was not shown"); 
+					Log.d("Safetybank","Software Keyboard was not shown"); 
 				} 
 			}
 		else {
-			Log.d(TAG, "immmmmmmmmmmmmmmmmmmmmmmmmmmm null");
+			Log.d("Safetybank", "immmmmmmmmmmmmmmmmmmmmmmmmmmm null");
 		}
 
                 int pixelHeightDiff = (int)(heightDiff / density);
