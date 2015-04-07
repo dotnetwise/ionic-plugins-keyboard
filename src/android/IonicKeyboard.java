@@ -17,8 +17,8 @@ import android.view.inputmethod.InputMethodManager;
 
 public class IonicKeyboard extends CordovaPlugin{
 
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(final cordova, webView);
+    public void initialize(final CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
 
         //calculate density-independent pixels (dp)
         //http://developer.android.com/guide/practices/screens_support.html
