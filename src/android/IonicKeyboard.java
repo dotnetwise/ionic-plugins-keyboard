@@ -49,7 +49,8 @@ public class IonicKeyboard extends CordovaPlugin{
 						"right: " + Integer.toString(r.right) + ", " +
 						"width: " + Integer.toString(r.width) + ", " +
 						"height: " + Integer.toString(r.height) + //", " +
-					"}, device: {"+
+					"}, " +
+					"device: {" +
 						"top: " + Integer.toString(v.getTop()) + ", " +
 						"bottom: " + Integer.toString(v.getBottom()) + ", " +
 						"left: " + Integer.toString(v.getLeft()) + ", " +
