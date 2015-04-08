@@ -85,7 +85,7 @@ public class IonicKeyboard extends CordovaPlugin{
 
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(list);
     }
-	private string fullScreenSetMessage;
+	private String fullScreenSetMessage;
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if ("close".equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
@@ -165,7 +165,7 @@ public class IonicKeyboard extends CordovaPlugin{
 		Log.d(TAG, message);
 		return message;
     }
-	private string goNonImmersive(Window window) {
+	private String goNonImmersive(Window window) {
 		saveUserPreference("FullScreen", "NonImmersive");
 		String message;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
