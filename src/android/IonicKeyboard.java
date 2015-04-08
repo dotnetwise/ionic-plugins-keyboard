@@ -5,6 +5,7 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.LOG;
+import org.apache.cordova.PluginResult;
 import org.apache.cordova.PluginResult.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,7 +85,7 @@ public class IonicKeyboard extends CordovaPlugin{
 
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(list);
     }
-
+	private string fullScreenSetMessage;
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if ("close".equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
@@ -115,24 +116,27 @@ public class IonicKeyboard extends CordovaPlugin{
 
 		if ("applyFullScreenOption".equals(action)) {
 			final String option = args.getString(0);
+			fullScreenSetMessage = "Error setting your preference";
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
+					
 					if (option == "Immersive") {
-						goImmersive(window);
+						fullScreenSetMessage = goImmersive(window);
 					}
 					else if (option == "FullScreen") {
-						goFullScreen(window);
+						fullScreenSetMessage = goFullScreen(window);
 					}
 					else if (option == "NonImmersive") {
-						goFullScreen(window);
+						fullScreenSetMessage = goFullScreen(window);
 					}
 					else {
-						goNonFullScreen(window);
+						fullScreenSetMessage = goNonFullScreen(window);
 					}
                     callbackContext.success(); // Thread-safe.
                 }
             });
+			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, fullScreenSetMessage));
             return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
@@ -150,7 +154,7 @@ public class IonicKeyboard extends CordovaPlugin{
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 	    else {
-			message = "Immersive mode activated";
+			message = "Full screen immersive mode activated";
 			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -161,41 +165,54 @@ public class IonicKeyboard extends CordovaPlugin{
 		Log.d(TAG, message);
 		return message;
     }
-	private void goNonImmersive(Window window) {
+	private string goNonImmersive(Window window) {
 		saveUserPreference("FullScreen", "NonImmersive");
+		String message;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			message = "Full screen non imersive mode is not supported by this ANCIENT Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			message = "Full screen non-immersive mode activated";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 	    else {
+			message = "Full screen non-immersive mode activated";
 			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 		}
+		Log.d(TAG, message);
+		return message;
     }
-	private void goFullScreen(Window window) {
+	private String goFullScreen(Window window) {
 		saveUserPreference("FullScreen", "FullScreen");
+		String message;
+
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			message = "Full screen mode is not supported by this ANCIENT Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			message = "Full screen mode activated";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 	    else {
+			message = "Full screen mode activated";
 			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_FULLSCREEN);
 		}
-		
+		Log.d(TAG, message);
+		return message;
     }
-	private void goNonFullScreen(Window window) {
+	private String goNonFullScreen(Window window) {
 		saveUserPreference("FullScreen", "NonFullScreen");
+		String message = "Non full screen mode activated";
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -206,6 +223,7 @@ public class IonicKeyboard extends CordovaPlugin{
 	    else {
 			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 		}
+		return message;
     }
 	private void saveUserPreference(String preference, String value) {
 		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
