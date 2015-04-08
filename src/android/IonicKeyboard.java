@@ -138,7 +138,7 @@ public class IonicKeyboard extends CordovaPlugin{
 	private void goImmersive(Window window) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
-								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -155,7 +155,7 @@ public class IonicKeyboard extends CordovaPlugin{
 	private void goNonImmersive(Window window) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
-								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -169,7 +169,7 @@ public class IonicKeyboard extends CordovaPlugin{
 	private void goFullScreen(Window window) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
-								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -186,7 +186,7 @@ public class IonicKeyboard extends CordovaPlugin{
 	private void goNonFullScreen(Window window) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
-								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
