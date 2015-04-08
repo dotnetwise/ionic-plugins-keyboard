@@ -4,6 +4,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,15 +95,22 @@ public class IonicKeyboard extends CordovaPlugin{
             return true;
         }
 
-		if ("hideTitleBar".equals(action)) {
+		if ("applyFullScreenOption".equals(action)) {
 			final String show = args.getString(0);
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
-					if (show == "true" || show == "1") {
-						cordova.getActivity().getActionBar().show();
+					final Window window = cordova.getActivity().getWindow();
+					if (show == "immersive") {
+						goImmersive(window);
+					}
+					else if (show == "full") {
+						goFullScreen(window);
+					}
+					else if (show == "nonimmersive") {
+						goFullScreen(window);
 					}
 					else {
-						cordova.getActivity().getActionBar().hide();
+						goNonFullScreen(window);
 					}
                     callbackContext.success(); // Thread-safe.
                 }
@@ -111,7 +119,43 @@ public class IonicKeyboard extends CordovaPlugin{
         }
         return false;  // Returning false results in a "MethodNotFound" error.
     }
-
-
+	private void goImmersive(Window window) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	    else {
+			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+		}
+    }
+	private void goNonImmersive(Window window) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	    else {
+			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+		}
+    }
+	private void goFullScreen(Window window) {
+		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
+    }
+	private void goNonFullScreen(Window window) {
+		window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		
+    }
 }
 
