@@ -22,8 +22,8 @@ Keyboard.show = function() {
 Keyboard.disableScroll = function(disable) {
     exec(null, null, "Keyboard", "disableScroll", [disable]);
 };
-Keyboard.hideTitleBar = function (hide) {
-	exec(null, null, "Keyboard", "hideTitleBar", [hide]);
+Keyboard.applyFullScreenOption = function (option) {
+	exec(null, null, "Keyboard", "applyFullScreenOption", [option]);
 };
 
 /*
