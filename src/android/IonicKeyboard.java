@@ -34,6 +34,7 @@ import android.util.Log;
 import android.util.DisplayMetrics;
 
 public class IonicKeyboard extends CordovaPlugin{
+    public static String TAG = "Safetybank";
 
     public void initialize(final CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -113,17 +114,17 @@ public class IonicKeyboard extends CordovaPlugin{
         }
 
 		if ("applyFullScreenOption".equals(action)) {
-			final String show = args.getString(0);
+			final String option = args.getString(0);
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
-					if (show == "Immersive") {
+					if (option == "Immersive") {
 						goImmersive(window);
 					}
-					else if (show == "FullScreen") {
+					else if (option == "FullScreen") {
 						goFullScreen(window);
 					}
-					else if (show == "NonImmersive") {
+					else if (option == "NonImmersive") {
 						goFullScreen(window);
 					}
 					else {
@@ -136,16 +137,20 @@ public class IonicKeyboard extends CordovaPlugin{
         }
         return false;  // Returning false results in a "MethodNotFound" error.
     }
-	private void goImmersive(Window window) {
+	private String goImmersive(Window window) {
 		saveUserPreference("FullScreen", "Immersive");
+		String message;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			message = "Immersive mode not supported on this ANCIENT Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			message = "Immersive mode not supported on this Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 	    else {
+			message = "Immersive mode activated";
 			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -153,6 +158,8 @@ public class IonicKeyboard extends CordovaPlugin{
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 		}
+		Log.d(TAG, message);
+		return message;
     }
 	private void goNonImmersive(Window window) {
 		saveUserPreference("FullScreen", "NonImmersive");
