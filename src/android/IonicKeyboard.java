@@ -203,7 +203,7 @@ public class IonicKeyboard extends CordovaPlugin{
 	private void saveUserPreference(String preference, String value) {
 		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putInt(getString(preference), value);
+		editor.putString(preference, value);
 		editor.commit();
 	}
 }
