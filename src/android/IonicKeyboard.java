@@ -42,6 +42,7 @@ public class IonicKeyboard extends CordovaPlugin{
 
 			appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
 				"{" +
+					"density: '" + Float.toString(density) + "', " +
 					"viewPort: {" + 
 						"top: " + Integer.toString(r.top) + ", " +
 						"bottom: " + Integer.toString(r.bottom) + ", " +
@@ -57,8 +58,7 @@ public class IonicKeyboard extends CordovaPlugin{
 						"top: " + Integer.toString(v.getTop()) + ", " +
 						"width: " + Integer.toString(v.getWidth()) + ", " +
 						"height: " + Integer.toString(v.getHeight()) + //", " +
-					"}, "+
-					"density: '" + Float.toString(density) + //"', " +
+					"}"+ //", " +
 				"});");
              }
         };
