@@ -136,6 +136,7 @@ public class IonicKeyboard extends CordovaPlugin{
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 	private void goImmersive(Window window) {
+		saveUserPreference("FullScreen", "Immersive");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -153,6 +154,7 @@ public class IonicKeyboard extends CordovaPlugin{
 		}
     }
 	private void goNonImmersive(Window window) {
+		saveUserPreference("FullScreen", "NonImmersive");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -167,6 +169,7 @@ public class IonicKeyboard extends CordovaPlugin{
 		}
     }
 	private void goFullScreen(Window window) {
+		saveUserPreference("FullScreen", "FullScreen");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -184,6 +187,7 @@ public class IonicKeyboard extends CordovaPlugin{
 		
     }
 	private void goNonFullScreen(Window window) {
+		saveUserPreference("FullScreen", "NonFullScreen");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -195,5 +199,11 @@ public class IonicKeyboard extends CordovaPlugin{
 			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 		}
     }
+	private void saveUserPreference(String preference, String value) {
+		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt(getString(preference), value);
+		editor.commit();
+	}
 }
 
