@@ -113,7 +113,7 @@ public class IonicKeyboard extends CordovaPlugin{
 
 		if ("applyFullScreenOption".equals(action)) {
 			final String show = args.getString(0);
-            cordova.getThreadPool().execute(new Runnable() {
+            cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
 					if (show == "immersive") {
