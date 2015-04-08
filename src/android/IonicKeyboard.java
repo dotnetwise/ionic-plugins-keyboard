@@ -38,42 +38,26 @@ public class IonicKeyboard extends CordovaPlugin{
                 //r will be populated with the coordinates of your view that area still visible.
                 rootView.getWindowVisibleDisplayFrame(r);
 
-				int h = rootView.getRootView().getHeight();
-				int b = r.bottom;
-                int heightDiff = h - b;
-						InputMethodManager imm = (InputMethodManager)cordova.getActivity()
-            .getSystemService(Context.INPUT_METHOD_SERVICE);
+				View v = rootView.getRootView();
 
-			appView.sendJavascript("cordova.fireWindowEvent('native.keyboardchanged', { 'viewPortHeight':" + Integer.toString(b)+", 'rootViewHeight':" + Integer.toString(h)+", 'imm': " + (imm != null && imm.isAcceptingText() ? "1": "0") +" });");
-			 
-//			if (imm != null) {
-//				if (imm.isAcceptingText()) {
-//					Log.d("Safetybank","Software Keyboard was shown");
-//				} else {
-//					Log.d("Safetybank","Software Keyboard was not shown"); 
-//				} 
-//			}
-//		else {
-//			Log.d("Safetybank", "immmmmmmmmmmmmmmmmmmmmmmmmmmm null");
-//		}
-
-                int pixelHeightDiff = (int)(heightDiff / density);
-
-                if (pixelHeightDiff > 100 && pixelHeightDiff != previousHeightDiff) { // if more than 100 pixels, its probably a keyboard...
-                    appView.sendJavascript("cordova.plugins.Keyboard.isVisible = true");
-                    appView.sendJavascript("cordova.fireWindowEvent('native.keyboardshow', { 'keyboardHeight':" + Integer.toString(pixelHeightDiff)+"});");
-
-                    //deprecated
-                    appView.sendJavascript("cordova.fireWindowEvent('native.showkeyboard', { 'keyboardHeight':" + Integer.toString(pixelHeightDiff)+"});");
-                }
-                else if ( pixelHeightDiff != previousHeightDiff && ( previousHeightDiff - pixelHeightDiff ) > 100 ){
-                    appView.sendJavascript("cordova.plugins.Keyboard.isVisible = false");
-                    appView.sendJavascript("cordova.fireWindowEvent('native.keyboardhide')");
-
-                    //deprecated
-                    appView.sendJavascript("cordova.fireWindowEvent('native.hidekeyboard')");
-                }
-                previousHeightDiff = pixelHeightDiff;
+			appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
+				"{" +
+					"viewPort: {" + 
+						"top: " + Integer.toString(r.top) + ", " +
+						"bottom: " + Integer.toString(r.bottom) + ", " +
+						"left: " + Integer.toString(r.left) + ", " +
+						"right: " + Integer.toString(r.right) + ", " +
+						"width: " + Integer.toString(r.width) + ", " +
+						"height: " + Integer.toString(r.height) + //", " +
+					"}, device: {"+
+						"top: " + Integer.toString(v.getTop()) + ", " +
+						"bottom: " + Integer.toString(v.getBottom()) + ", " +
+						"left: " + Integer.toString(v.getLeft()) + ", " +
+						"top: " + Integer.toString(r.getLeft()) + ", " +
+						"width: " + Integer.toString(v.getWidth()) + ", " +
+						"height: " + Integer.toString(r.getHeight()) + //", " +
+					"}"+
+				"});"
              }
         };
 
