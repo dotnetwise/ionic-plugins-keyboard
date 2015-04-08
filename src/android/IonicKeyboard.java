@@ -12,7 +12,8 @@ import org.json.JSONException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -26,11 +27,11 @@ import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-import android.content.Context;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
+import android.util.Log;
+import android.util.DisplayMetrics;
 
 public class IonicKeyboard extends CordovaPlugin{
 
@@ -116,13 +117,13 @@ public class IonicKeyboard extends CordovaPlugin{
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
-					if (show == "immersive") {
+					if (show == "Immersive") {
 						goImmersive(window);
 					}
-					else if (show == "full") {
+					else if (show == "FullScreen") {
 						goFullScreen(window);
 					}
-					else if (show == "nonimmersive") {
+					else if (show == "NonImmersive") {
 						goFullScreen(window);
 					}
 					else {
