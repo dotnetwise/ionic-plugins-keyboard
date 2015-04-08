@@ -169,8 +169,7 @@ public class IonicKeyboard extends CordovaPlugin{
 		
     }
 	private void goNonFullScreen(Window window) {
-		window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
-                 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		
     }
 }
