@@ -133,10 +133,13 @@ public class IonicKeyboard extends CordovaPlugin{
 					else {
 						fullScreenSetMessage = goNonFullScreen(window);
 					}
-                    callbackContext.success(); // Thread-safe.
+					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
+                    pluginResult.setKeepCallback(true);
+                    callbackContext.sendPluginResult(pluginResult);
+                    //callbackContext.success(); // Thread-safe.
                 }
             });
-			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, fullScreenSetMessage));
+			//callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, fullScreenSetMessage));
             return true;
         }
 		if ("getFullScreenPreference".equals(action)) {
@@ -146,10 +149,13 @@ public class IonicKeyboard extends CordovaPlugin{
                 public void run() { 
 					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 					fullScreenSetMessage = sharedPref.getString("FullScreen", "Immersive");
-                    callbackContext.success(); // Thread-safe.
+					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
+                    pluginResult.setKeepCallback(true);
+					callbackContext.sendPluginResult(pluginResult);
+                    //callbackContext.success(); // Thread-safe.
                 }
             });
-			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, fullScreenSetMessage));
+			//callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, fullScreenSetMessage));
             return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
