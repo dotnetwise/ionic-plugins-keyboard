@@ -147,9 +147,14 @@ public class IonicKeyboard extends CordovaPlugin{
 					JSONObject response = new JSONObject();
 					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 					String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
-					response.put("message", fullScreenSetMessage);
-					response.put("mode", mode);
-					response.put("api", Build.VERSION.SDK_INT);
+					try {
+						response.put("message", fullScreenSetMessage);
+						response.put("mode", mode);
+						response.put("api", Build.VERSION.SDK_INT);
+					}
+					catch (JSONException e) {
+						  Log.e(TAG, "Problem creating JSON object from setFullScreenPreference:" + e.getMessage());
+					}
 					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
@@ -166,8 +171,13 @@ public class IonicKeyboard extends CordovaPlugin{
 					fullScreenSetMessage = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
 					Log.d(TAG, "getFullScreenPreference:"+fullScreenSetMessage);
 					JSONObject response = new JSONObject();
-					response.put("mode", fullScreenSetMessage);
-					response.put("api", Build.VERSION.SDK_INT);
+					try {
+						response.put("mode", fullScreenSetMessage);
+						response.put("api", Build.VERSION.SDK_INT);
+					}
+					catch (JSONException e) {
+						  Log.e(TAG, "Problem creating JSON object from setFullScreenPreference:" + e.getMessage());
+					}
 					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
                     pluginResult.setKeepCallback(true);
 					callbackContext.sendPluginResult(pluginResult);
