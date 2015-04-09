@@ -277,13 +277,15 @@ public class IonicKeyboard extends CordovaPlugin{
 	{
 		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 		String mode = sharedPref.getString(FullScreenPreferenceName, FSModeImmersive);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			return FSModeNonFullScreen;
-		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			return FSModeNonImmersive;
-		}
-	    else {
-			return FSModeImmersive;
+		if (mode == null) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+				return FSModeNonFullScreen;
+			} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+				return FSModeNonImmersive;
+			}
+			else {
+				return FSModeImmersive;
+			}
 		}
 		return mode;
 	}
