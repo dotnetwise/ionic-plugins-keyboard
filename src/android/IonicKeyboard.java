@@ -42,6 +42,7 @@ public class IonicKeyboard extends CordovaPlugin{
     public static String FSModeNonImmersive = "NonImmersive";
     public static String FSModeFullScreen = "FullScreen";
     public static String FSModeNonFullScreen = "NonFullScreen";
+	private float density;
 
     public void initialize(final CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -50,7 +51,7 @@ public class IonicKeyboard extends CordovaPlugin{
         //http://developer.android.com/guide/practices/screens_support.html
         DisplayMetrics dm = new DisplayMetrics();
         cordova.getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        final float density = dm.density;
+        density = dm.density;
 
         final CordovaWebView appView = webView;
 
