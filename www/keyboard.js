@@ -23,7 +23,7 @@ Keyboard.disableScroll = function(disable) {
     exec(null, null, "Keyboard", "disableScroll", [disable]);
 };
 Keyboard.setFullScreenPreference = function (option, successCallback, errorCallback) {
-	exec(successCallback, errorCallback, "Keyboard", "applyFullScreenOption", [option]);
+	exec(successCallback, errorCallback, "Keyboard", "setFullScreenPreference", [option]);
 };
 Keyboard.getFullScreenPreference = function (successCallback, errorCallback) {
 	exec(successCallback, errorCallback, "Keyboard", "getFullScreenPreference", []);
