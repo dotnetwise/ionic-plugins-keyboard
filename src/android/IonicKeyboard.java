@@ -143,9 +143,9 @@ public class IonicKeyboard extends CordovaPlugin{
 			final String option = args.getString(0);
 			fullScreenSetMessage = "Error getting your FullScreen preference";
             cordova.getActivity().runOnUiThread(new Runnable() {
-                public void run() {
+                public void run() { 
 					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
-					fullScreenSetMessage = sharedPref.getString(preference, null);
+					fullScreenSetMessage = sharedPref.getString("FullScreen", "Immersive");
                     callbackContext.success(); // Thread-safe.
                 }
             });
