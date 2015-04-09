@@ -153,11 +153,9 @@ public class IonicKeyboard extends CordovaPlugin{
 					}
 					
 					JSONObject response = new JSONObject();
-					String mode = getUserFullScreenPreference();
+					injectFullScreenResult(response);
 					try {
 						response.put("message", fullScreenSetMessage);
-						response.put("mode", mode);
-						response.put("api", Build.VERSION.SDK_INT);
 					}
 					catch (JSONException e) {
 						  Log.e(TAG, "Problem creating JSON object from setFullScreenPreference:" + e.getMessage());
@@ -177,13 +175,7 @@ public class IonicKeyboard extends CordovaPlugin{
 					String mode = getUserFullScreenPreference();
 					Log.d(TAG, "getFullScreenPreference:"+mode);
 					JSONObject response = new JSONObject();
-					try {
-						response.put("mode", mode);
-						response.put("api", Build.VERSION.SDK_INT);
-					}
-					catch (JSONException e) {
-						  Log.e(TAG, "Problem creating JSON object from setFullScreenPreference:" + e.getMessage());
-					}
+					injectFullScreenResult(response);
 					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
                     pluginResult.setKeepCallback(true);
 					callbackContext.sendPluginResult(pluginResult);
@@ -194,6 +186,41 @@ public class IonicKeyboard extends CordovaPlugin{
         }
         return false;  // Returning false results in a "MethodNotFound" error.
     }
+	private void injectFullScreenResult(JSONObject response) {
+		//http://stackoverflow.com/a/4737265/1091751 detect if keyboard is showing
+        final View rootView = cordova.getActivity().getWindow().getDecorView().findViewById(android.R.id.content).getRootView();
+        
+		Rect r = new Rect();
+		//r will be populated with the coordinates of your view that area still visible.
+		rootView.getWindowVisibleDisplayFrame(r);
+
+		View v = rootView.getRootView();
+		String mode = getUserFullScreenPreference();
+		try {
+			response.put("density", Float.toString(density));
+			response.put("mode", mode);
+			response.put("api", Build.VERSION.SDK_INT);
+			JSONObject viewPort = new JSONObject();
+			viewPort.put("top", r.top);
+			viewPort.put("bottom", r.bottom);
+			viewPort.put("left", r.left);
+			viewPort.put("right", r.right);
+			viewPort.put("width", r.width());
+			viewPort.put("height", r.height();
+			response.put("viewPort", viewPort); 
+			JSONObject device = new JSONObject();
+			device.put("top", v.getTop());
+			device.put("bottom", v.getBottom());
+			device.put("left", v.getLeft());
+			device.put("top", v.getTop());
+			device.put("width", v.getWidth());
+			device.put("height", v.getHeight());
+			response.put("device", device);
+		}
+		catch (JSONException e) {
+				Log.e(TAG, "Problem creating JSON object from getFullScreenResult:" + e.getMessage());
+		}
+	}
 	private String goImmersive(Window window) {
 		saveUserPreference(FullScreenPreferenceName, FSModeImmersive);
 		String message;
