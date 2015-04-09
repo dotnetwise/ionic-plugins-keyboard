@@ -22,9 +22,12 @@ Keyboard.show = function() {
 Keyboard.disableScroll = function(disable) {
     exec(null, null, "Keyboard", "disableScroll", [disable]);
 };
-Keyboard.applyFullScreenOption = function (option) {
-	exec(null, null, "Keyboard", "applyFullScreenOption", [option]);
+Keyboard.applyFullScreenOption = function (option, successCallback, errorCallback) {
+	exec(successCallback, errorCallback, "Keyboard", "applyFullScreenOption", [option]);
 };
+Keyboard.getFullScreenPreference = function (successCallback, errorCallback) {
+	exec(successCallback, errorCallback, "Keyboard", "getFullScreenPreference", [option]);
+}
 
 /*
 Keyboard.styleDark = function(dark) {
