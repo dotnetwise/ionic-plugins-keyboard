@@ -123,14 +123,14 @@ public class IonicKeyboard extends CordovaPlugin{
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
 					
-					if (option == "Immersive") {
+					if ("Immersive".equals(option)) {
 						fullScreenSetMessage = goImmersive(window);
 					}
-					else if (option == "FullScreen") {
+					else if ("FullScreen".equals(option)) {
 						fullScreenSetMessage = goFullScreen(window);
 					}
-					else if (option == "NonImmersive") {
-						fullScreenSetMessage = goFullScreen(window);
+					else if ("NonImmersive".equals(option)) {
+						fullScreenSetMessage = goNonImmersive(window);
 					}
 					else {
 						fullScreenSetMessage = goNonFullScreen(window);
