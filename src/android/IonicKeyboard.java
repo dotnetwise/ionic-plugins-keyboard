@@ -36,6 +36,11 @@ import android.util.DisplayMetrics;
 
 public class IonicKeyboard extends CordovaPlugin{
     public static String TAG = "Safetybank";
+    public static String FullScreenPreferenceName = "Fullscreen";
+    public static String FSImmersive = "Immersive";
+    public static String FSModeNonImmersive = "NonImmersive";
+    public static String FSModeFullScreen = "FullScreen";
+    public static String FSModeNonFullScreen = "NonFullScreen";
 
     public void initialize(final CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -123,13 +128,13 @@ public class IonicKeyboard extends CordovaPlugin{
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
 					
-					if ("Immersive".equals(option)) {
+					if (FSImmersive.equals(option)) {
 						fullScreenSetMessage = goImmersive(window);
 					}
-					else if ("FullScreen".equals(option)) {
+					else if (FSModeFullScreen.equals(option)) {
 						fullScreenSetMessage = goFullScreen(window);
 					}
-					else if ("NonImmersive".equals(option)) {
+					else if (FSModeNonImmersive.equals(option)) {
 						fullScreenSetMessage = goNonImmersive(window);
 					}
 					else {
@@ -148,7 +153,7 @@ public class IonicKeyboard extends CordovaPlugin{
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() { 
 					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
-					fullScreenSetMessage = sharedPref.getString("FullScreen", "Immersive");
+					fullScreenSetMessage = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
 					Log.d(TAG, "getFullScreenPreference:"+fullScreenSetMessage);
 					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
                     pluginResult.setKeepCallback(true);
@@ -161,15 +166,15 @@ public class IonicKeyboard extends CordovaPlugin{
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 	private String goImmersive(Window window) {
-		saveUserPreference("FullScreen", "Immersive");
+		saveUserPreference(FullScreenPreferenceName, FSImmersive);
 		String message;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			saveUserPreference("FullScreen", "NonFullScreen");
+			saveUserPreference(FullScreenPreferenceName, FSModeNonFullScreen);
 			message = "Immersive mode not supported on this ANCIENT Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			saveUserPreference("FullScreen", "NonImmersive");
+			saveUserPreference(FullScreenPreferenceName, FSModeNonImmersive);
 			message = "Immersive mode not supported on this Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -187,10 +192,10 @@ public class IonicKeyboard extends CordovaPlugin{
 		return message;
     }
 	private String goNonImmersive(Window window) {
-		saveUserPreference("FullScreen", "NonImmersive");
+		saveUserPreference(FullScreenPreferenceName, FSModeNonImmersive);
 		String message;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			saveUserPreference("FullScreen", "NonFullScreen");
+			saveUserPreference(FullScreenPreferenceName, FSModeNonFullScreen);
 			message = "Full screen non imersive mode is not supported by this ANCIENT Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -209,11 +214,11 @@ public class IonicKeyboard extends CordovaPlugin{
 		return message;
     }
 	private String goFullScreen(Window window) {
-		saveUserPreference("FullScreen", "FullScreen");
+		saveUserPreference(FullScreenPreferenceName, FSModeFullScreen);
 		String message;
 
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			saveUserPreference("FullScreen", "NonFullScreen");
+			saveUserPreference(FullScreenPreferenceName, FSModeNonFullScreen);
 			message = "Full screen mode is not supported by this ANCIENT Android version";
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
 								 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -234,7 +239,7 @@ public class IonicKeyboard extends CordovaPlugin{
 		return message;
     }
 	private String goNonFullScreen(Window window) {
-		saveUserPreference("FullScreen", "NonFullScreen");
+		saveUserPreference(FullScreenPreferenceName, FSModeNonFullScreen);
 		String message = "Non full screen mode activated";
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
