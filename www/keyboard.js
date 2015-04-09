@@ -26,7 +26,7 @@ Keyboard.applyFullScreenOption = function (option, successCallback, errorCallbac
 	exec(successCallback, errorCallback, "Keyboard", "applyFullScreenOption", [option]);
 };
 Keyboard.getFullScreenPreference = function (successCallback, errorCallback) {
-	exec(successCallback, errorCallback, "Keyboard", "getFullScreenPreference", [option]);
+	exec(successCallback, errorCallback, "Keyboard", "getFullScreenPreference", []);
 }
 
 /*
