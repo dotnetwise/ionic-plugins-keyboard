@@ -38,7 +38,7 @@ import android.util.DisplayMetrics;
 public class IonicKeyboard extends CordovaPlugin{
     public static String TAG = "Safetybank";
     public static String FullScreenPreferenceName = "Fullscreen";
-    public static String FSImmersive = "Immersive";
+    public static String FSModeImmersive = "Immersive";
     public static String FSModeNonImmersive = "NonImmersive";
     public static String FSModeFullScreen = "FullScreen";
     public static String FSModeNonFullScreen = "NonFullScreen";
@@ -131,7 +131,7 @@ public class IonicKeyboard extends CordovaPlugin{
                 public void run() {
 					final Window window = cordova.getActivity().getWindow();
 					
-					if (FSImmersive.equals(option)) {
+					if (FSModeImmersive.equals(option)) {
 						fullScreenSetMessage = goImmersive(window);
 					}
 					else if (FSModeFullScreen.equals(option)) {
@@ -165,7 +165,7 @@ public class IonicKeyboard extends CordovaPlugin{
 			fullScreenSetMessage = "Error getting your FullScreen preference";
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() { 
-					String mode = getUserFullScreenPreference;
+					String mode = getUserFullScreenPreference();
 					Log.d(TAG, "getFullScreenPreference:"+mode);
 					JSONObject response = new JSONObject();
 					try {
@@ -186,7 +186,7 @@ public class IonicKeyboard extends CordovaPlugin{
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 	private String goImmersive(Window window) {
-		saveUserPreference(FullScreenPreferenceName, FSImmersive);
+		saveUserPreference(FullScreenPreferenceName, FSModeImmersive);
 		String message;
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			saveUserPreference(FullScreenPreferenceName, FSModeNonFullScreen);
@@ -276,14 +276,14 @@ public class IonicKeyboard extends CordovaPlugin{
 	private String getUserFullScreenPreference() 
 	{
 		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
-		String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
+		String mode = sharedPref.getString(FullScreenPreferenceName, FSModeImmersive);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			return FSModeNonFullScreen;
 		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			return FSNonImmersive;
+			return FSModeNonImmersive;
 		}
 	    else {
-			return FSImmersive;
+			return FSModeImmersive;
 		}
 		return mode;
 	}
