@@ -70,8 +70,8 @@ public class IonicKeyboard extends CordovaPlugin{
 			appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
 				"{" +
 					"density: '" + Float.toString(density) + "', " +
-					"api": '"+ Integer.toString(Build.VERSION.SDK_INT) + "', " +
-					"mode": '"+ mode + "', " +
+					"api: '"+ Integer.toString(Build.VERSION.SDK_INT) + "', " +
+					"mode: '"+ mode + "', " +
 					"viewPort: {" + 
 						"top: " + Integer.toString(r.top) + ", " +
 						"bottom: " + Integer.toString(r.bottom) + ", " +
