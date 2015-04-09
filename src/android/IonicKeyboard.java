@@ -134,8 +134,8 @@ public class IonicKeyboard extends CordovaPlugin{
 					}
 					else {
 						fullScreenSetMessage = goNonFullScreen(window);
-					}
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, "'"+ fullScreenSetMessage+ "'");
+					} 
+					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
                     //callbackContext.success(); // Thread-safe.
@@ -149,7 +149,7 @@ public class IonicKeyboard extends CordovaPlugin{
                 public void run() { 
 					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 					fullScreenSetMessage = sharedPref.getString("FullScreen", "Immersive");
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, "'"+ fullScreenSetMessage+ "'");
+					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
                     pluginResult.setKeepCallback(true);
 					callbackContext.sendPluginResult(pluginResult);
                     //callbackContext.success(); // Thread-safe.
