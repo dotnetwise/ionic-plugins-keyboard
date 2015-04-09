@@ -207,7 +207,7 @@ public class IonicKeyboard extends CordovaPlugin{
 			viewPort.put("left", r.left);
 			viewPort.put("right", r.right);
 			viewPort.put("width", r.width());
-			viewPort.put("height", r.height();
+			viewPort.put("height", r.height());
 			response.put("viewPort", viewPort); 
 			JSONObject device = new JSONObject();
 			device.put("top", v.getTop());
