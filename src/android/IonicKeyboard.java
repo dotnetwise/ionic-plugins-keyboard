@@ -123,14 +123,22 @@ public class IonicKeyboard extends CordovaPlugin{
         }
 
 		if ("setFullScreenPreference".equals(action)) {
-			final String option = args.getString(0);
-			Log.d(TAG, "setFullScreenPreference: " + option);
+			final String setOption = args.getString(0);
+			Log.d(TAG, "setFullScreenPreference: " + setOption);
 
 			fullScreenSetMessage = "Error setting your preference";
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-					final Window window = cordova.getActivity().getWindow();
-					
+					final Window window = cordova.getActivity().getWindow
+					String option = setOption;
+					if (!FSModeImmersive.equals(option) 
+						&& !FSModeFullScreen.equals(option)
+						&& !FSModeNonImmersive.equals(option) 
+						&& !FSModeNonFullScreen.equals(option)) {
+						option = getUserFullScreenPreference();
+						Log.d(TAG, "setFullScreenPreference.enforced " + setOption);
+					}
+
 					if (FSModeImmersive.equals(option)) {
 						fullScreenSetMessage = goImmersive(window);
 					}
@@ -140,9 +148,10 @@ public class IonicKeyboard extends CordovaPlugin{
 					else if (FSModeNonImmersive.equals(option)) {
 						fullScreenSetMessage = goNonImmersive(window);
 					}
-					else {
+					else if (FSModeNonFullScreen.equals(option)) {
 						fullScreenSetMessage = goNonFullScreen(window);
-					} 
+					}
+					
 					JSONObject response = new JSONObject();
 					String mode = getUserFullScreenPreference();
 					try {
