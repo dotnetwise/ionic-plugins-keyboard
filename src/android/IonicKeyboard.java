@@ -64,10 +64,13 @@ public class IonicKeyboard extends CordovaPlugin{
                 rootView.getWindowVisibleDisplayFrame(r);
 
 				View v = rootView.getRootView();
-
+				SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
+				String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
 			appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
 				"{" +
 					"density: '" + Float.toString(density) + "', " +
+					"api": '"+ Integer.toString(Build.VERSION.SDK_INT) + "', " +
+					"mode": '"+ mode + "', " +
 					"viewPort: {" + 
 						"top: " + Integer.toString(r.top) + ", " +
 						"bottom: " + Integer.toString(r.bottom) + ", " +
@@ -140,7 +143,13 @@ public class IonicKeyboard extends CordovaPlugin{
 					else {
 						fullScreenSetMessage = goNonFullScreen(window);
 					} 
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
+					JSONObject response = new JSONObject();
+					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
+					String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
+					response.put("message", fullScreenSetMessage);
+					response.put("mode", mode);
+					response.put("api", Build.VERSION.SDK_INT);
+					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
                     //callbackContext.success(); // Thread-safe.
@@ -156,7 +165,7 @@ public class IonicKeyboard extends CordovaPlugin{
 					fullScreenSetMessage = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
 					Log.d(TAG, "getFullScreenPreference:"+fullScreenSetMessage);
 					JSONObject response = new JSONObject();
-					response.put("message", fullScreenSetMessage);
+					response.put("mode", fullScreenSetMessage);
 					response.put("api", Build.VERSION.SDK_INT);
 					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
                     pluginResult.setKeepCallback(true);
