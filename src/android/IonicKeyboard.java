@@ -149,6 +149,7 @@ public class IonicKeyboard extends CordovaPlugin{
                 public void run() { 
 					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 					fullScreenSetMessage = sharedPref.getString("FullScreen", "Immersive");
+					Log.d(TAG, "getFullScreenPreference:"+fullScreenSetMessage);
 					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fullScreenSetMessage);
                     pluginResult.setKeepCallback(true);
 					callbackContext.sendPluginResult(pluginResult);
