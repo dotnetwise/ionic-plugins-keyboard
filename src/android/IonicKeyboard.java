@@ -114,7 +114,7 @@ public class IonicKeyboard extends CordovaPlugin{
             return true;
         }
 
-		if ("applyFullScreenOption".equals(action)) {
+		if ("setFullScreenPreference".equals(action)) {
 			final String option = args.getString(0);
 			fullScreenSetMessage = "Error setting your preference";
             cordova.getActivity().runOnUiThread(new Runnable() {
