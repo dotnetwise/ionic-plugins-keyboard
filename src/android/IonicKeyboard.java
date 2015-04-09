@@ -65,8 +65,7 @@ public class IonicKeyboard extends CordovaPlugin{
                 rootView.getWindowVisibleDisplayFrame(r);
 
 				View v = rootView.getRootView();
-				SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
-				String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
+				String mode = getUserFullScreenPreference();
 			appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
 				"{" +
 					"density: '" + Float.toString(density) + "', " +
@@ -145,8 +144,7 @@ public class IonicKeyboard extends CordovaPlugin{
 						fullScreenSetMessage = goNonFullScreen(window);
 					} 
 					JSONObject response = new JSONObject();
-					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
-					String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
+					String mode = getUserFullScreenPreference();
 					try {
 						response.put("message", fullScreenSetMessage);
 						response.put("mode", mode);
@@ -167,12 +165,11 @@ public class IonicKeyboard extends CordovaPlugin{
 			fullScreenSetMessage = "Error getting your FullScreen preference";
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() { 
-					SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
-					fullScreenSetMessage = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
-					Log.d(TAG, "getFullScreenPreference:"+fullScreenSetMessage);
+					String mode = getUserFullScreenPreference;
+					Log.d(TAG, "getFullScreenPreference:"+mode);
 					JSONObject response = new JSONObject();
 					try {
-						response.put("mode", fullScreenSetMessage);
+						response.put("mode", mode);
 						response.put("api", Build.VERSION.SDK_INT);
 					}
 					catch (JSONException e) {
@@ -276,6 +273,20 @@ public class IonicKeyboard extends CordovaPlugin{
 		}
 		return message;
     }
+	private String getUserFullScreenPreference() 
+	{
+		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
+		String mode = sharedPref.getString(FullScreenPreferenceName, FSImmersive);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			return FSModeNonFullScreen;
+		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			return FSNonImmersive;
+		}
+	    else {
+			return FSImmersive;
+		}
+		return mode;
+	}
 	private void saveUserPreference(String preference, String value) {
 		SharedPreferences sharedPref = cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
