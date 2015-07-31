@@ -67,29 +67,32 @@ public class IonicKeyboard extends CordovaPlugin{
 
 				View v = rootView.getRootView();
 				String mode = getUserFullScreenPreference();
-			appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
-				"{" +
-					"density: '" + Float.toString(density) + "', " +
-					"api: '"+ Integer.toString(Build.VERSION.SDK_INT) + "', " +
-					"mode: '"+ mode + "', " +
-					"viewPort: {" + 
-						"top: " + Integer.toString(r.top) + ", " +
-						"bottom: " + Integer.toString(r.bottom) + ", " +
-						"left: " + Integer.toString(r.left) + ", " +
-						"right: " + Integer.toString(r.right) + ", " +
-						"width: " + Integer.toString(r.width()) + ", " +
-						"height: " + Integer.toString(r.height()) + //", " +
-					"}, " +
-					"device: {" +
-						"top: " + Integer.toString(v.getTop()) + ", " +
-						"bottom: " + Integer.toString(v.getBottom()) + ", " +
-						"left: " + Integer.toString(v.getLeft()) + ", " +
-						"top: " + Integer.toString(v.getTop()) + ", " +
-						"width: " + Integer.toString(v.getWidth()) + ", " +
-						"height: " + Integer.toString(v.getHeight()) + //", " +
-					"}"+ //", " +
-				"});");
-             }
+				
+				if (Build.VERSION.SDK_INT > 16) {
+					appView.sendJavascript("cordova.fireWindowEvent('native.viewPortChanged', " + 
+					"{" +
+						"density: '" + Float.toString(density) + "', " +
+						"api: '"+ Integer.toString(Build.VERSION.SDK_INT) + "', " +
+						"mode: '"+ mode + "', " +
+						"viewPort: {" + 
+							"top: " + Integer.toString(r.top) + ", " +
+							"bottom: " + Integer.toString(r.bottom) + ", " +
+							"left: " + Integer.toString(r.left) + ", " +
+							"right: " + Integer.toString(r.right) + ", " +
+							"width: " + Integer.toString(r.width()) + ", " +
+							"height: " + Integer.toString(r.height()) + //", " +
+						"}, " +
+						"device: {" +
+							"top: " + Integer.toString(v.getTop()) + ", " +
+							"bottom: " + Integer.toString(v.getBottom()) + ", " +
+							"left: " + Integer.toString(v.getLeft()) + ", " +
+							"top: " + Integer.toString(v.getTop()) + ", " +
+							"width: " + Integer.toString(v.getWidth()) + ", " +
+							"height: " + Integer.toString(v.getHeight()) + //", " +
+						"}"+ //", " +
+					"});");
+				}
+			}
         };
 
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(list);
