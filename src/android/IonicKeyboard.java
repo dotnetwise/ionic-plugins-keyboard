@@ -92,6 +92,14 @@ public class IonicKeyboard extends CordovaPlugin{
 						"}"+ //", " +
 					"});");
 				}
+				
+				appView.sendJavascript("cordova.fireWindowEvent('native.buildVersionInfo', " + 
+					"{" +
+						"codename: '"+ Build.VERSION.CODENAME + "', " +
+						"incremental: '"+ Build.VERSION.INCREMENTAL + "', " +
+						"release: '"+ Build.VERSION.RELEASE + "', " +
+						"sdk_int: '"+ Integer.toString(Build.VERSION.SDK_INT) + "', " +
+					"});");
 			}
         };
 
